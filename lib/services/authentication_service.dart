@@ -40,16 +40,16 @@ class AuthenticationService with ReactiveServiceMixin {
       print('[AuthService] Logging in...');
 
       Response response = await dio.post(
-        '/api/auth/login',
+        'https://italiaqualificagroup.org/api/login',
         data: {
           "email": email,
           "password": password,
         },
       );
 
-      AuthenticationResponse data =
-          AuthenticationResponse.fromJson(response.data);
+      AuthenticationResponse data =  AuthenticationResponse.fromJson(response.data);
       _token.value = data.accessToken;
+    
       setToken(data.accessToken);
       await fetchUser();
 
