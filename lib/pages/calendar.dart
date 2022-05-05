@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_ui/common/theme_helper.dart';
+import 'package:qualifica_group/common/theme_helper.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:table_calendar/table_calendar.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_ui/common/theme_helper.dart';
+import 'package:qualifica_group/common/theme_helper.dart';
 
 import 'calendar.dart';
 import 'login_page.dart';

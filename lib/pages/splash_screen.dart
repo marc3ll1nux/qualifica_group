@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_login_ui/api/api.dart';
+import 'package:qualifica_group/api/api.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 

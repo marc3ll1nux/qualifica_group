@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_login_ui/api/api.dart';
-import 'package:flutter_login_ui/pages/qr_code.dart';
+import 'package:qualifica_group/api/api.dart';
+import 'package:qualifica_group/pages/qr_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:flutter_login_ui/pages/login_page.dart';
-import 'package:flutter_login_ui/pages/splash_screen.dart';
-import 'package:flutter_login_ui/pages/widgets/header_widget.dart';
+import 'package:qualifica_group/pages/login_page.dart';
+import 'package:qualifica_group/pages/splash_screen.dart';
+import 'package:qualifica_group/pages/widgets/header_widget.dart';
 
 import 'forgot_password_page.dart';
 import 'calendar.dart';
