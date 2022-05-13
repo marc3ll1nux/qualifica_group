@@ -17,7 +17,7 @@
 13    <application
 13-->/var/www/qualifica_group/android/app/src/main/AndroidManifest.xml:3:4-40:19
 14        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-14-->[androidx.core:core:1.6.0] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/5f663b08eec19eef9a9d1af662d9025e/core-1.6.0/AndroidManifest.xml:24:18-86
+14-->[androidx.core:core:1.6.0] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/bf57ee6ef03cef43525091c12acf6534/core-1.6.0/AndroidManifest.xml:24:18-86
 15        android:icon="@mipmap/ic_launcher"
 15-->/var/www/qualifica_group/android/app/src/main/AndroidManifest.xml:5:9-43
 16        android:label="flutter_login_ui" >
@@ -86,17 +86,17 @@
 57-->/var/www/qualifica_group/android/app/src/main/AndroidManifest.xml:39:13-30
 58
 59        <uses-library
-59-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/a78fdf90e4c1f8464b19895cfb365f3f/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+59-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/4ae8db8808990911ffb0cc1d905648d2/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
 60            android:name="androidx.window.extensions"
-60-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/a78fdf90e4c1f8464b19895cfb365f3f/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+60-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/4ae8db8808990911ffb0cc1d905648d2/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
 61            android:required="false" />
-61-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/a78fdf90e4c1f8464b19895cfb365f3f/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+61-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/4ae8db8808990911ffb0cc1d905648d2/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
 62        <uses-library
-62-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/a78fdf90e4c1f8464b19895cfb365f3f/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+62-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/4ae8db8808990911ffb0cc1d905648d2/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
 63            android:name="androidx.window.sidecar"
-63-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/a78fdf90e4c1f8464b19895cfb365f3f/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+63-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/4ae8db8808990911ffb0cc1d905648d2/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
 64            android:required="false" />
-64-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/a78fdf90e4c1f8464b19895cfb365f3f/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+64-->[androidx.window:window:1.0.0-beta04] /home/marc3ll1nux/.gradle/caches/transforms-2/files-2.1/4ae8db8808990911ffb0cc1d905648d2/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
 65    </application>
 66
 67</manifest>
