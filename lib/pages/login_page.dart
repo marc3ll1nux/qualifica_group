@@ -204,8 +204,9 @@ class _LoginPageState extends State<LoginPage> {
       localStorage.setString('token', body['accessToken']);
       localStorage.setString('user', json.encode(body['user']));
 
-      var resTask = await CallApi().getTasks('task');
-      print(resTask);
+      /*
+      var resTask = await CallApi().getTasks();
+      print(resTask);*/
 
       Navigator.push(
           context, new MaterialPageRoute(builder: (context) => ProfilePage()));

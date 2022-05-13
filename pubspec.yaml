@@ -36,6 +36,11 @@ dependencies:
   flutter_clean_calendar: ^1.1.0
   table_calendar: ^3.0.5
   qr_flutter: ^4.0.0
+  syncfusion_flutter_core: ^20.1.52
+  intl: ^0.17.0
+  date_format: ^2.0.2
+  connectivity: ^3.0.3
+  syncfusion_flutter_calendar: ^20.1.55
 
 dev_dependencies:
   flutter_test:
