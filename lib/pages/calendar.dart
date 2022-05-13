@@ -115,7 +115,7 @@ class _CalendarioPageState extends State<CalendarioPage> {
                                   child: SfCalendar(
                                 view: CalendarView.week,
                                 initialDisplayDate:
-                                    DateTime(2022, 1, 01, 0, 0, 0),
+                                    DateTime(2022, 1, 11, 0, 0, 0),
                                 dataSource: MeetingDataSource(snapshot.data),
                               )),
                             );
