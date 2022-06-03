@@ -5,6 +5,11 @@ import 'package:flutter/services.dart';
 import 'package:qualifica_group/api/api.dart';
 import 'package:qualifica_group/pages/qr_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+<<<<<<< HEAD
+=======
+import 'package:http/http.dart' as http;
+
+>>>>>>> 85c642f2454b49a34fa1ee36ff3fb0eab43e61db
 import 'package:qualifica_group/pages/login_page.dart';
 import 'package:qualifica_group/pages/splash_screen.dart';
 import 'package:qualifica_group/pages/widgets/header_widget.dart';
@@ -27,6 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void initState() {
     _getUserInfo();
+    userData = _getTasks();
+    print(userData);
     super.initState();
   }
 
@@ -36,6 +43,22 @@ class _ProfilePageState extends State<ProfilePage> {
     var user = json.decode(userJson!);
     setState(() {
       userData = user;
+    });
+    print(userData);
+  }
+
+  getToken() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var token = localStorage.getString('token');
+    return token;
+  }
+
+  Future<http.Response> _getTasks() async {
+    var fullUrl = 'https://italiaqualificagroup.org/api/task';
+
+    return await http.get(Uri.parse(fullUrl), headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + await getToken()
     });
   }
 

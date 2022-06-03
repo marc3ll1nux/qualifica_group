@@ -42,7 +42,11 @@ packages:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "1.16.0"
+=======
+    version: "1.15.0"
+>>>>>>> 85c642f2454b49a34fa1ee36ff3fb0eab43e61db
   connectivity:
     dependency: "direct main"
     description:
@@ -78,6 +82,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  date_format:
+    dependency: "direct main"
+    description:
+      name: date_format
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.6"
   fake_async:
     dependency: transitive
     description:
@@ -148,7 +159,7 @@ packages:
     source: hosted
     version: "4.0.0"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       url: "https://pub.dartlang.org"
@@ -347,22 +358,35 @@ packages:
       name: syncfusion_flutter_calendar
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "20.1.57"
+=======
+    version: "20.1.55"
+>>>>>>> 85c642f2454b49a34fa1ee36ff3fb0eab43e61db
   syncfusion_flutter_core:
     dependency: "direct main"
     description:
       name: syncfusion_flutter_core
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "20.1.57"
+=======
+    version: "20.1.55"
+>>>>>>> 85c642f2454b49a34fa1ee36ff3fb0eab43e61db
   syncfusion_flutter_datepicker:
     dependency: transitive
     description:
       name: syncfusion_flutter_datepicker
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "20.1.57"
   syncfusion_localizations:
+=======
+    version: "20.1.55"
+  table_calendar:
+>>>>>>> 85c642f2454b49a34fa1ee36ff3fb0eab43e61db
     dependency: "direct main"
     description:
       name: syncfusion_localizations
@@ -382,7 +406,11 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
+<<<<<<< HEAD
     version: "0.4.9"
+=======
+    version: "0.4.8"
+>>>>>>> 85c642f2454b49a34fa1ee36ff3fb0eab43e61db
   timezone:
     dependency: transitive
     description:

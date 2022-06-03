@@ -18,8 +18,8 @@ class CallApi {
     return await http.get(Uri.parse(fullUrl), headers: _setHeaders());
   }
 
-  getTasks(apiUrl) async {
-    var fullUrl = _url + apiUrl;
+  getTasks() async {
+    var fullUrl = _url + 'task';
 
     return await http.get(Uri.parse(fullUrl), headers: {
       'Content-type': 'application/json',
