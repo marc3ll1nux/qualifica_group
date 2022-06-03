@@ -123,7 +123,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              CalendarioPage()),
+                                              CalendarioApp()),
                                     );
                                   }
                                 },

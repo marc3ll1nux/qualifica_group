@@ -33,9 +33,14 @@ dependencies:
   otp_text_field: ^1.1.1
   shared_preferences: ^2.0.13
   http: ^0.13.4
-  flutter_clean_calendar: ^1.1.0
-  table_calendar: ^3.0.5
+ 
   qr_flutter: ^4.0.0
+  connectivity: ^3.0.6
+  syncfusion_flutter_calendar: ^20.1.57
+  syncfusion_localizations: ^20.1.57
+  syncfusion_flutter_core: ^20.1.57
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:

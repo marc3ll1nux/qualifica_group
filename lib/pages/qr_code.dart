@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:qualifica_group/common/theme_helper.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/style.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import 'profile_page.dart';

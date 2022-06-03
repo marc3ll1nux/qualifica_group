@@ -1,8 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:qualifica_group/api/api.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'login_page.dart';
@@ -18,7 +16,6 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool _isVisible = false;
- 
 
   _SplashScreenState() {
     new Timer(const Duration(milliseconds: 2000), () {
