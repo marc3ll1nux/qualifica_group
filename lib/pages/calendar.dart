@@ -89,7 +89,8 @@ class _CalendarioPageState extends State<CalendarioApp> {
       var arr = data['datatask'].split('-');
 
       Meeting meetingData = Meeting(
-          eventName: data['title'],
+          eventName:
+              data['title'] + "\n" + data['address'] + "\n" + data['city'],
           from: _convertDateFromString(
             arr[2] + "-" + arr[1] + "-" + arr[0] + "T" + data['timetask'],
           ),
@@ -124,7 +125,7 @@ class _CalendarioPageState extends State<CalendarioApp> {
     if (details.targetElement == CalendarElement.appointment ||
         details.targetElement == CalendarElement.agenda) {
       final Meeting appointmentDetails = details.appointments![0];
-      _subjectText = appointmentDetails.eventName;
+      _subjectText = appointmentDetails.eventName.toString();
       /*_dateText = DateFormat('MMMM dd, yyyy')
           .format(appointmentDetails.startTime)
           .toString();*/
