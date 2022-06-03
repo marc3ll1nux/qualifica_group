@@ -24,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController endpoint = TextEditingController();
   // ScaffoldState scaffoldState;
   _showMsg(msg) {
     //
@@ -105,6 +106,17 @@ class _LoginPageState extends State<LoginPage> {
                                         decoration: ThemeHelper()
                                             .textInputDecoration('Password',
                                                 "Scrivi la password"),
+                                      ),
+                                      decoration: ThemeHelper()
+                                          .inputBoxDecorationShaddow(),
+                                    ),
+                                    SizedBox(height: 15.0),
+                                    Container(
+                                      child: TextField(
+                                        controller: endpoint,
+                                        decoration: ThemeHelper()
+                                            .textInputDecoration('Endpoint',
+                                                "Scrivi l'endpoint"),
                                       ),
                                       decoration: ThemeHelper()
                                           .inputBoxDecorationShaddow(),
@@ -194,16 +206,18 @@ class _LoginPageState extends State<LoginPage> {
 
     var data = {
       'email': mailController.text,
-      'password': passwordController.text
+      'password': passwordController.text,
+      'endpoint': endpoint.text
     };
-
+    var Endpoint = data['endpoint'];
     var res = await CallApi().postData(data, 'login');
     var body = json.decode(res.body);
     if (body['user'] != "") {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.setString('token', body['accessToken']);
       localStorage.setString('user', json.encode(body['user']));
-
+      localStorage.setString('endpoint', Endpoint!);
+      print(localStorage);
       /*
       var resTask = await CallApi().getTasks();
       print(resTask);*/

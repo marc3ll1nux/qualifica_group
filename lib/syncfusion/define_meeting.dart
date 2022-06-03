@@ -35,10 +35,10 @@ class MeetingDataSource extends CalendarDataSource {
 class Meeting {
   Meeting(
       {this.eventName,
-        this.from,
-        this.to,
-        this.background,
-        this.allDay = false});
+      this.from,
+      this.to,
+      this.background,
+      this.allDay = false});
 
   String? eventName;
   DateTime? from;

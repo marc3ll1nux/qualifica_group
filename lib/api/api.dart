@@ -6,7 +6,14 @@ class CallApi {
   final String _url = 'https://italiaqualificagroup.org/api/';
 
   postData(data, apiUrl) async {
-    var fullUrl = _url + apiUrl;
+    var fullUrl;
+    if (data['endpoint'] == "")
+      fullUrl = _url + apiUrl;
+    else
+      fullUrl = 'https://' +
+          data['endpoint'] +
+          '.italiaqualificagroup.org/api/' +
+          apiUrl;
 
     return await http.post(Uri.parse(fullUrl),
         body: jsonEncode(data), headers: _setHeaders());
@@ -18,8 +25,13 @@ class CallApi {
     return await http.get(Uri.parse(fullUrl), headers: _setHeaders());
   }
 
-  getTasks() async {
-    var fullUrl = _url + 'task';
+  getTasks(endpoint) async {
+    var fullUrl;
+    if (endpoint == "")
+      fullUrl = _url + 'task';
+    else
+      fullUrl =
+          'https://' + endpoint + '.italiaqualificagroup.org/api/' + 'task';
 
     return await http.get(Uri.parse(fullUrl), headers: {
       'Content-type': 'application/json',

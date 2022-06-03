@@ -1,4 +1,0 @@
-#Fri May 13 14:36:40 CEST 2022
-base.0=/var/www/qualifica_group/build/app/intermediates/dex/debug/mergeDexDebug/classes.dex
-renamed.0=classes.dex
-path.0=classes.dex

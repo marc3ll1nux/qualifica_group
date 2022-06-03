@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
+import 'package:intl/intl.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:qualifica_group/pages/qr_code.dart';
@@ -48,15 +50,21 @@ class CalendarioApp extends StatefulWidget {
 }
 
 class _CalendarioPageState extends State<CalendarioApp> {
-  final _formKey = GlobalKey<FormState>();
-  bool _pinSuccess = false;
-  double _drawerIconSize = 24;
-  double _drawerFontSize = 17;
   var userData;
 
+  Color? _headerColor, _viewHeaderColor, _calendarColor;
   List<Color> _colorCollection = <Color>[];
-  String? _networkStatusMsg;
+  double _drawerFontSize = 17;
+  double _drawerIconSize = 24;
+  final _formKey = GlobalKey<FormState>();
   final Connectivity _internetConnectivity = new Connectivity();
+  String? _networkStatusMsg;
+  bool _pinSuccess = false;
+  String? _subjectText = '',
+      _startTimeText = '',
+      _endTimeText = '',
+      _dateText = '',
+      _timeDetails = '';
 
   @override
   void initState() {
@@ -64,6 +72,115 @@ class _CalendarioPageState extends State<CalendarioApp> {
     _initializeEventColor();
     _checkNetworkStatus();
     super.initState();
+  }
+
+  Future<List<Meeting>> getDataFromWeb() async {
+    SharedPreferences localStorage1 = await SharedPreferences.getInstance();
+    var endpoint = localStorage1.getString('endpoint');
+    var resTask = await CallApi().getTasks(endpoint);
+
+    var jsonData = json.decode(resTask.body);
+
+    final List<Meeting> appointmentData = [];
+    final Random random = new Random();
+    var jsonData1 = jsonData['tasks'];
+
+    for (var data in jsonData1) {
+      var arr = data['datatask'].split('-');
+
+      Meeting meetingData = Meeting(
+          eventName: data['title'],
+          from: _convertDateFromString(
+            arr[2] + "-" + arr[1] + "-" + arr[0] + "T" + data['timetask'],
+          ),
+          to: _convertDateFromString(
+            arr[2] + "-" + arr[1] + "-" + arr[0] + "T" + data['timetaskend'],
+          ),
+          background: _colorCollection[random.nextInt(9)],
+          allDay: false);
+      appointmentData.add(meetingData);
+    }
+    return appointmentData;
+  }
+
+  void logout() async {
+    // logout from the server ...
+    var res = await CallApi().getData('logout');
+    var body = json.decode(res.body);
+    if (body['user'] != "") {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+      Navigator.push(
+          context, new MaterialPageRoute(builder: (context) => LoginPage()));
+    }
+  }
+
+  void myTask(CalendarTapDetails details) {
+    _showMyDialog();
+  }
+
+  void calendarTapped(CalendarTapDetails details) {
+    if (details.targetElement == CalendarElement.appointment ||
+        details.targetElement == CalendarElement.agenda) {
+      final Meeting appointmentDetails = details.appointments![0];
+      _subjectText = appointmentDetails.eventName;
+      /*_dateText = DateFormat('MMMM dd, yyyy')
+          .format(appointmentDetails.startTime)
+          .toString();*/
+      _dateText = _startTimeText = appointmentDetails.from.toString();
+      _endTimeText = appointmentDetails.to.toString();
+      //DateFormat('hh:mm a').format(appointmentDetails.endTime).toString();
+      if (appointmentDetails.allDay == true) {
+        _timeDetails = 'All day';
+      } else {
+        _timeDetails = '$_startTimeText - $_endTimeText';
+      }
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Container(child: new Text('$_subjectText')),
+              content: Container(
+                height: 80,
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          '$_dateText',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(''),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(_timeDetails!,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 15)),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                new FlatButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: new Text('close'))
+              ],
+            );
+          });
+    }
   }
 
   void _getUserInfo() async {
@@ -111,31 +228,32 @@ class _CalendarioPageState extends State<CalendarioApp> {
     });
   }
 
-  Future<List<Meeting>> getDataFromWeb() async {
-    var resTask = await CallApi().getTasks('task');
-
-    var jsonData = json.decode(resTask.body);
-
-    final List<Meeting> appointmentData = [];
-    final Random random = new Random();
-    var jsonData1 = jsonData['tasks'];
-
-    for (var data in jsonData1) {
-      var arr = data['datatask'].split('-');
-
-      Meeting meetingData = Meeting(
-          eventName: data['title'],
-          from: _convertDateFromString(
-            arr[2] + "-" + arr[1] + "-" + arr[0] + "T" + data['timetask'],
+  Future<void> _showMyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('This is a demo alert dialog.'),
+                Text('Would you like to approve of this message?'),
+              ],
+            ),
           ),
-          to: _convertDateFromString(
-            arr[2] + "-" + arr[1] + "-" + arr[0] + "T" + data['timetaskend'],
-          ),
-          background: _colorCollection[random.nextInt(9)],
-          allDay: false);
-      appointmentData.add(meetingData);
-    }
-    return appointmentData;
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Chiudi'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -373,10 +491,27 @@ class _CalendarioPageState extends State<CalendarioApp> {
                                   locale: Locale('it'),
                                   child: SfCalendar(
                                     view: CalendarView.week,
+                                    allowedViews: [
+                                      CalendarView.day,
+                                      CalendarView.week,
+                                      CalendarView.workWeek,
+                                      CalendarView.month,
+                                      CalendarView.timelineDay,
+                                      CalendarView.timelineWeek,
+                                      CalendarView.timelineWorkWeek,
+                                    ],
+                                    monthViewSettings:
+                                        MonthViewSettings(showAgenda: true),
+                                    scheduleViewSettings: ScheduleViewSettings(
+                                      appointmentItemHeight: 70,
+                                    ),
+                                    showNavigationArrow: true,
+                                    showWeekNumber: true,
                                     initialDisplayDate:
                                         DateTime(2022, 1, 14, 7, 0, 0),
                                     dataSource:
                                         MeetingDataSource(snapshot.data),
+                                    onTap: calendarTapped,
                                   )),
                             );
                           } else {
@@ -395,18 +530,5 @@ class _CalendarioPageState extends State<CalendarioApp> {
             ],
           ),
         ));
-  }
-
-  void logout() async {
-    // logout from the server ...
-    var res = await CallApi().getData('logout');
-    var body = json.decode(res.body);
-    if (body['user'] != "") {
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.remove('user');
-      localStorage.remove('token');
-      Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => LoginPage()));
-    }
   }
 }
