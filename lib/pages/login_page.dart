@@ -199,7 +199,57 @@ class _LoginPageState extends State<LoginPage> {
         return Expanded(
           child: AlertDialog(
             title: Text('Errore'),
-            content: Text('Inserire l\'endpoint'),
+            content: Text('Endpoint vuoto'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Chiudi',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  _showErrorEndpointDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Expanded(
+          child: AlertDialog(
+            title: Text('Errore'),
+            content: Text('Inserire l\'endpoint corretto'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Chiudi',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  _showUserErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Expanded(
+          child: AlertDialog(
+            title: Text('Errore'),
+            content: Text('Username / Password Non Corrette'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -231,10 +281,19 @@ class _LoginPageState extends State<LoginPage> {
     if (endpoint.text == "") {
       _showDialog(context);
     } else {
-      var res = await CallApi().postData(data, 'login');
+      var res;
+      try {
+        res = await CallApi().postData(data, 'login');
+      } catch (e) {
+        _showErrorEndpointDialog(context);
+      }
+
       var body = json.decode(res.body);
+
       var Endpoint = data['endpoint'];
-      if (body['user'] != "") {
+      if (body['message'] == "Credenziali non valide") {
+        _showUserErrorDialog(context);
+      } else if (body['user'] != "") {
         SharedPreferences localStorage = await SharedPreferences.getInstance();
         localStorage.setString('token', body['accessToken']);
         localStorage.setString('user', json.encode(body['user']));
@@ -244,7 +303,7 @@ class _LoginPageState extends State<LoginPage> {
         Navigator.push(context,
             new MaterialPageRoute(builder: (context) => ProfilePage()));
       } else {
-        _showMsg('Errore');
+        _showDialog(context);
       }
     }
     setState(() {

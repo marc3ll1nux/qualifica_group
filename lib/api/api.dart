@@ -6,10 +6,6 @@ class CallApi {
   //final String _url = 'https://italiaqualificagroup.org/api/';
 
   postData(data, apiUrl) async {
-    /*var fullUrl;
-    if (data['endpoint'] == "")
-      fullUrl = _url + apiUrl;
-    else*/
     var fullUrl = 'https://' +
         data['endpoint'] +
         '.italiaqualificagroup.org/api/' +
@@ -17,6 +13,8 @@ class CallApi {
 
     return await http.post(Uri.parse(fullUrl),
         body: jsonEncode(data), headers: _setHeaders());
+
+    //if (response.statusCode == 200) {}
   }
 
   getData(apiUrl) async {
