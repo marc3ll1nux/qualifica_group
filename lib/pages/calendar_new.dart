@@ -399,7 +399,10 @@ class _CalendarioPageState extends State<CalendarioApp> {
 
   void logout() async {
     // logout from the server ...
-    var res = await CallApi().getData('logout');
+    SharedPreferences localStorage1 = await SharedPreferences.getInstance();
+    var endpoint = localStorage1.getString('endpoint');
+
+    var res = await CallApi().getData1(endpoint, 'logout');
     var body = json.decode(res.body);
     if (body['user'] != "") {
       SharedPreferences localStorage = await SharedPreferences.getInstance();

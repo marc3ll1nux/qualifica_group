@@ -1,14 +1,18 @@
 import 'dart:convert';
-
+import 'dart:async';
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
+
 import 'package:qualifica_group/api/api.dart';
 import 'package:qualifica_group/common/theme_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'forgot_password_page.dart';
 import 'profile_page.dart';
-//import 'registration_page.dart';
+
 import 'widgets/header_widget.dart';
 
 class LoginPage extends StatefulWidget {
@@ -22,9 +26,12 @@ class _LoginPageState extends State<LoginPage> {
   double _headerHeight = 250;
   Key _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
+  String? dataconf;
+
   TextEditingController mailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController endpoint = TextEditingController();
+  TextEditingController endpoint = TextEditingController(text: "");
+
   // ScaffoldState scaffoldState;
   _showMsg(msg) {
     //
@@ -45,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     _checkIfLoggedIn();
+
     super.initState();
   }
 
@@ -56,7 +64,29 @@ class _LoginPageState extends State<LoginPage> {
       setState(() {
         _isLoggedIn = true;
       });
+    } else {
+      _loadData();
     }
+  }
+
+  Future<String> loadAsset(BuildContext context) async {
+    return await DefaultAssetBundle.of(context)
+        .loadString('assets/configuration.txt');
+  }
+
+  Future<File> writeCounter(String counter) async {
+    final file = await File('configuration.txt');
+
+    // Write the file
+    return file.writeAsString('$counter');
+  }
+
+  void _loadData() async {
+    final _loadedData = await rootBundle.loadString('configuration.txt');
+    setState(() {
+      dataconf = _loadedData;
+    });
+    endpoint.text = dataconf!;
   }
 
   @override
@@ -112,36 +142,18 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                     SizedBox(height: 15.0),
                                     Container(
-                                      child: TextField(
+                                      child: TextFormField(
                                         controller: endpoint,
                                         decoration: ThemeHelper()
                                             .textInputDecoration('Endpoint',
                                                 "Scrivi l'endpoint"),
+
+                                        //initialValue: "premiosrl",
                                       ),
                                       decoration: ThemeHelper()
                                           .inputBoxDecorationShaddow(),
                                     ),
                                     SizedBox(height: 15.0),
-                                    /*   Container(
-                                margin: EdgeInsets.fromLTRB(10, 0, 10, 20),
-                                alignment: Alignment.topRight,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ForgotPasswordPage()),
-                                    );
-                                  },
-                                  child: Text(
-                                    "Forgot your password?",
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ),
-                              ), */
                                     Container(
                                       decoration: ThemeHelper()
                                           .buttonBoxDecoration(context),
@@ -169,25 +181,6 @@ class _LoginPageState extends State<LoginPage> {
                                         onPressed: _isLoading ? null : _login,
                                       ),
                                     ),
-                                    /*Container(
-                              margin: EdgeInsets.fromLTRB(10,20,10,20),
-                              //child: Text('Don\'t have an account? Create'),
-                              child: Text.rich(
-                                TextSpan(
-                                  children: [
-                                    TextSpan(text: "Don\'t have an account? "),
-                                    TextSpan(
-                                      text: 'Create',
-                                      recognizer: TapGestureRecognizer()
-                                        ..onTap = (){
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationPage()));
-                                        },
-                                      style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).accentColor),
-                                    ),
-                                  ]
-                                )
-                              ),
-                            ),*/
                                   ],
                                 )),
                           ],
@@ -196,6 +189,31 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
+    );
+  }
+
+  _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Expanded(
+          child: AlertDialog(
+            title: Text('Errore'),
+            content: Text('Inserire l\'endpoint'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'Chiudi',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -209,25 +227,26 @@ class _LoginPageState extends State<LoginPage> {
       'password': passwordController.text,
       'endpoint': endpoint.text
     };
-    var Endpoint = data['endpoint'];
-    var res = await CallApi().postData(data, 'login');
-    var body = json.decode(res.body);
-    if (body['user'] != "") {
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.setString('token', body['accessToken']);
-      localStorage.setString('user', json.encode(body['user']));
-      localStorage.setString('endpoint', Endpoint!);
-      print(localStorage);
-      /*
-      var resTask = await CallApi().getTasks();
-      print(resTask);*/
 
-      Navigator.push(
-          context, new MaterialPageRoute(builder: (context) => ProfilePage()));
+    if (endpoint.text == "") {
+      _showDialog(context);
     } else {
-      _showMsg('Errore');
-    }
+      var res = await CallApi().postData(data, 'login');
+      var body = json.decode(res.body);
+      var Endpoint = data['endpoint'];
+      if (body['user'] != "") {
+        SharedPreferences localStorage = await SharedPreferences.getInstance();
+        localStorage.setString('token', body['accessToken']);
+        localStorage.setString('user', json.encode(body['user']));
+        localStorage.setString('endpoint', Endpoint!);
+        writeCounter(Endpoint);
 
+        Navigator.push(context,
+            new MaterialPageRoute(builder: (context) => ProfilePage()));
+      } else {
+        _showMsg('Errore');
+      }
+    }
     setState(() {
       _isLoading = false;
     });

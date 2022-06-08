@@ -29,7 +29,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void initState() {
     _getUserInfo();
-
     super.initState();
   }
 
@@ -40,7 +39,6 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       userData = user;
     });
-    print(userData);
   }
 
   getToken() async {
@@ -49,6 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return token;
   }
 
+  /*
   Future<http.Response> _getTasks() async {
     var fullUrl = 'https://italiaqualificagroup.org/api/task';
 
@@ -57,7 +56,7 @@ class _ProfilePageState extends State<ProfilePage> {
       'Authorization': 'Bearer ' + await getToken()
     });
   }
-
+  */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -381,7 +380,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void logout() async {
     // logout from the server ...
-    var res = await CallApi().getData('logout');
+    SharedPreferences localStorage1 = await SharedPreferences.getInstance();
+    var endpoint = localStorage1.getString('endpoint');
+
+    var res = await CallApi().getData1(endpoint, 'logout');
     var body = json.decode(res.body);
     if (body['user'] != "") {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
